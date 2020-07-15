@@ -1,15 +1,74 @@
-import React from 'react';
-import ReactQuill from 'react-quill';
-import debounce from '../../helpers'
+import React, { useState } from "react";
+import ReactQuill from "react-quill";
+import debounce from "../../helpers";
+import { Divider, Button, withStyles, List } from "@material-ui/core";
+import styles from "./styles";
+import SidebarItem from "../sidebar-item/SidebarItem";
 
-import {withStyles} from '@material-ui/core/styles'
-import BorderColorIcon from '@material-ui/icons/BorderColor'
-import styles from './styles'
+const Sidebar = ({ notes, classes, selectedNoteIndex }) => {
+  const [addingNote, setAddingNote] = useState(false);
+  const [title, setTitle] = useState(null);
 
-const Sidebar = () => {
-  return ( 
-    <div>Hello from sidebar component</div>
-   );
-}
- 
+  const newNoteBtnClick = () => {
+    setAddingNote((addingNote) => !addingNote);
+    console.log(addingNote);
+  };
+
+  const updateTitle = (text) => {
+    setTitle(text);
+    console.log("HERE IT IS", text);
+  };
+
+  const newNote = () => {
+    console.log(addingNote, title);
+  };
+
+  const selectNote = () => {
+    console.log("select note");
+  };
+  const deleteNote = () => {
+    console.log("delete note");
+  };
+
+  if (notes) {
+    return (
+      <div className={classes.sidebarContainer}>
+        <Button onClick={newNoteBtnClick} className={classes.newNoteBtn}>
+          {addingNote ? "Cancel" : "New Note"}
+        </Button>
+        {addingNote ? (
+          <div>
+            <input
+              type="text"
+              className={classes.newNoteInput}
+              placeholder="Enter Note Title"
+              onKeyUp={(e) => updateTitle(e.target.value)}
+            />
+            <Button className={classes.newNoteSubmitBtn} onClick={newNote}>
+              SUBMIT NOTE
+            </Button>
+          </div>
+        ) : null}
+        <List>
+          {notes.map((note, index) => {
+            return (
+              <div key={index}>
+                <SidebarItem
+                  note={note}
+                  index={index}
+                  selectedNoteIndex={selectedNoteIndex}
+                  selectNote={selectNote}
+                  deleteNote={deleteNote}
+                ></SidebarItem>
+              </div>
+            );
+          })}
+        </List>
+      </div>
+    );
+  } else {
+    return <div></div>;
+  }
+};
+
 export default withStyles(styles)(Sidebar);
