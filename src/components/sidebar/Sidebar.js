@@ -5,7 +5,7 @@ import { Divider, Button, withStyles, List } from "@material-ui/core";
 import styles from "./styles";
 import SidebarItem from "../sidebar-item/SidebarItem";
 
-const Sidebar = ({ notes, classes, selectedNoteIndex }) => {
+const Sidebar = ({ notes, classes, selectedNoteIndex, ...props}) => {
   const [addingNote, setAddingNote] = useState(false);
   const [title, setTitle] = useState(null);
 
@@ -20,14 +20,16 @@ const Sidebar = ({ notes, classes, selectedNoteIndex }) => {
   };
 
   const newNote = () => {
-    console.log(addingNote, title);
+    props.newNote(title)
+    setTitle(null)
+    setAddingNote(false)
   };
 
-  const selectNote = () => {
-    console.log("select note");
+  const selectNote = (n, i) => {
+    props.selectNote(n, i);
   };
-  const deleteNote = () => {
-    console.log("delete note");
+  const deleteNote = (note) => {
+    props.deleteNote(note)
   };
 
   if (notes) {

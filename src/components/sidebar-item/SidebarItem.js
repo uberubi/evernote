@@ -25,7 +25,7 @@ const SidebarItem = ({ index, note, classes, selectedNoteIndex, ...props }) => {
       >
         <div
           className={classes.textSection}
-          onClick={() => selectedNoteIndex(note, index)}   
+          onClick={() => selectNote(note, index)}   
         >
           <ListItemText
             primary={note.title}
@@ -37,8 +37,6 @@ const SidebarItem = ({ index, note, classes, selectedNoteIndex, ...props }) => {
           onClick={() => deleteNote(note)}
           className={classes.deleteIcon}
         ></DeleteIcon>
-
-        
       </ListItem>
     </div>
   );
